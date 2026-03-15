@@ -4,13 +4,16 @@ def call(Map configMap){
             agent{ label 'agent-1'}
             
             environment{
-                greeting: configMap.get('greeting')
+                greeting=configMap.get('greeting')
             }
         }
 
         stages{
             stage('printing-greeting'){
-                echo "${greeting}"
+                steps{
+                    echo "${greeting}"
+                }
+                
             }
         }
 }
