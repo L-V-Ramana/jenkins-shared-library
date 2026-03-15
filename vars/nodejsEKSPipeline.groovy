@@ -13,6 +13,7 @@ def call(Map configMap){
         }
         parameters{
             booleanParam(name:'deployment', defaultValue: false, description: 'Toggle this value')
+            choice(name: 'CHOICE', choices: ['dev', 'qa', 'prod'],description: 'Pick environment')
         }
 
         stages {    
@@ -99,7 +100,7 @@ def call(Map configMap){
                             sh """
                             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867920734831.dkr.ecr.us-east-1.amazonaws.com
                             docker build -t ${project}/${component}:${appVersion} .
-                            docker tag ${project}/${component}:${appVersion} 867920734831.dkr.ecr.us-east-1.amazonaws.com/ ${project}/${component}:${appVersion}
+                            docker tag ${project}/${component}:${appVersion} 867920734831.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
                             docker push 867920734831.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
                             """
                         }
@@ -107,23 +108,23 @@ def call(Map configMap){
                 }
             }
 
-            // stage('trigger cd'){
-            //     when{
-            //         expression { params.deployment}
-            //     }
-            //     steps{
-            //             echo "${appVersion}"
-            //             build job: 'catalogue-cd', 
-            //             parameters: [
-            //                 string(name: 'appVersion', value: "${appVersion}"),
-            //                 string(name: 'deploy', value: 'dev')
+            stage('trigger cd'){
+                when{
+                    expression { params.deployment}
+                }
+                steps{
+                        echo "${appVersion}"
+                        build job: 'catalogue-cd', 
+                        parameters: [
+                            string(name: 'appVersion', value: "${appVersion}"),
+                            string(name: 'deploy', value: ${params.choice})
                     
-            //             ],
-            //             propagate: false, // even catalogue cd failes will not show ci as failed
-            //             wait: false // wont wait untill cd complete , if ci complete show as success
-            //     }
+                        ],
+                        propagate: false, // even catalogue cd failes will not show ci as failed
+                        wait: false // wont wait untill cd complete , if ci complete show as success
+                }
 
-            // }
+            }
 
         }
     }  
