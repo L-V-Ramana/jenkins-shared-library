@@ -107,23 +107,23 @@ def call(Map configMap){
                 }
             }
 
-            stage('trigger cd'){
-                when{
-                    expression { params.deployment}
-                }
-                steps{
-                        echo "${appVersion}"
-                        build job: 'catalogue-cd', 
-                        parameters: [
-                            string(name: 'appVersion', value: "${appVersion}"),
-                            string(name: 'deploy', value: 'dev')
+            // stage('trigger cd'){
+            //     when{
+            //         expression { params.deployment}
+            //     }
+            //     steps{
+            //             echo "${appVersion}"
+            //             build job: 'catalogue-cd', 
+            //             parameters: [
+            //                 string(name: 'appVersion', value: "${appVersion}"),
+            //                 string(name: 'deploy', value: 'dev')
                     
-                        ],
-                        propagate: false, // even catalogue cd failes will not show ci as failed
-                        wait: false // wont wait untill cd complete , if ci complete show as success
-                }
+            //             ],
+            //             propagate: false, // even catalogue cd failes will not show ci as failed
+            //             wait: false // wont wait untill cd complete , if ci complete show as success
+            //     }
 
-            }
+            // }
 
         }
     }  
