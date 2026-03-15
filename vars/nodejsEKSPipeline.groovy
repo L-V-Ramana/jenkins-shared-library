@@ -117,7 +117,7 @@ def call(Map configMap){
                         build job: '../catalogue-cd', 
                         parameters: [
                             string(name: 'appVersion', value: "${appVersion}"),
-                            string(name: 'deploy', value: ${params.choice})
+                            string(name: 'deploy', value: "${params.choice}")
                     
                         ],
                         propagate: false, // even catalogue cd failes will not show ci as failed
