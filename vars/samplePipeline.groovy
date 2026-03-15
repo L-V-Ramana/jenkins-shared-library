@@ -1,19 +1,19 @@
-def call(Map configMap){
+def call(Map condfigMap){
 
-        pipeline{
-            agent{ label 'agent-1'}
-            
-            environment{
-                greeting=configMap.get('greeting')
-            }
+    pipeline {
+        agent { label 'agent-1' }
+
+        environment {
+            greeting = condfigMap.get('greeting')
         }
 
-        stages{
-            stage('printing-greeting'){
-                steps{
+        stages {
+            stage('printing-greeting') {
+                steps {
                     echo "${greeting}"
                 }
-                
             }
         }
+    }
+
 }
