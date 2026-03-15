@@ -8,7 +8,8 @@ def call(Map configMap){
             acc_id = '867920734831'
             region = 'us-east-1'
             project = configMap.get('project')
-            appVersion = configMap.get('version')
+            component = configMap.get('component')
+            appVersion = 
         }
         parameters{
             booleanParam(name:'deployment', defaultValue: false, description: 'Toggle this value')
@@ -97,9 +98,9 @@ def call(Map configMap){
                         withAWS(credentials: 'aws-auth', region: "${region}") {
                             sh """
                             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867920734831.dkr.ecr.us-east-1.amazonaws.com
-                            docker build -t roboshop/catalogue:${appVersion} .
-                            docker tag roboshop/catalogue:${appVersion} 867920734831.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:${appVersion}
-                            docker push 867920734831.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:${appVersion}
+                            docker build -t ${project}/${component}:${appVersion} .
+                            docker tag ${project}/${component}:${appVersion} 867920734831.dkr.ecr.us-east-1.amazonaws.com/ ${project}/${component}:${appVersion}
+                            docker push 867920734831.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion}
                             """
                         }
                     }
