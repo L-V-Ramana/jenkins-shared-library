@@ -1,16 +1,16 @@
-def call(Map condfigMap){
+def call(Map configMap){
 
         pipeline{
             agent{ label 'agent-1'}
             
             environment{
-                greeting: condfigMap.get('greeting')
+                greeting: configMap.get('greeting')
             }
         }
 
         stages{
             stage('printing-greeting'){
-                echo '${greeting}'
+                echo "${greeting}"
             }
         }
 }
