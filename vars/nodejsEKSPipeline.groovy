@@ -9,7 +9,7 @@ def call(Map configMap){
             region = 'us-east-1'
             project = configMap.get('project')
             component = configMap.get('component')
-            appVersion = 
+            appVersion = ''
         }
         parameters{
             booleanParam(name:'deployment', defaultValue: false, description: 'Toggle this value')
