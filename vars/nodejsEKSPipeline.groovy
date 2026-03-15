@@ -114,7 +114,7 @@ def call(Map configMap){
                 }
                 steps{
                         echo "${appVersion}"
-                        build job: 'catalogue-cd', 
+                        build job: '../catalogue-cd', 
                         parameters: [
                             string(name: 'appVersion', value: "${appVersion}"),
                             string(name: 'deploy', value: ${params.choice})
